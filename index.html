@@ -1,24 +1,43 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
+
 <head>
-  <title>Pong!</title> 
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
-  <link href="pong.css" media="screen, print" rel="stylesheet" type="text/css" /> 
-</head> 
- 
-<body> 
+  <link rel="manifest" href="manifest.json">
+  <title>Pong!</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link href="pong.css" media="screen, print" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
 
   <div id="sidebar">
 
     <h2>This is Pong!</h2>
 
     <ul class='parts'>
-      <li><a href='/' class='selected'>Full Game</a></li>
-      <li><a href='/part1'><i>game runner</i> - Part 1</a></li>
-      <li><a href='/part2'><i>bouncing ball</i> - Part 2</a></li>
-      <li><a href='/part3'><i>game loop</i> - Part 3</a></li>
-      <li><a href='/part4'><i>collision detection</i> - Part 4</a></li>
-      <li><a href='/part5'><i>computer AI</i> - Part 5</a></li>
+      <li>
+        <a href='/' class='selected'>Full Game</a>
+      </li>
+      <li>
+        <a href='/part1'>
+          <i>game runner</i> - Part 1</a>
+      </li>
+      <li>
+        <a href='/part2'>
+          <i>bouncing ball</i> - Part 2</a>
+      </li>
+      <li>
+        <a href='/part3'>
+          <i>game loop</i> - Part 3</a>
+      </li>
+      <li>
+        <a href='/part4'>
+          <i>collision detection</i> - Part 4</a>
+      </li>
+      <li>
+        <a href='/part5'>
+          <i>computer AI</i> - Part 5</a>
+      </li>
     </ul>
 
     <div class='description'>
@@ -26,13 +45,20 @@
         This is a javascript version of Pong.
       </p>
       <p>
-        Press <b>1</b> for a single player game.<br>
-        Press <b>2</b> for a double player game.<br>
-        Press <b>0</b> to watch the computer play itself.
+        Press
+        <b>1</b> for a single player game.
+        <br> Press
+        <b>2</b> for a double player game.
+        <br> Press
+        <b>0</b> to watch the computer play itself.
       </p>
       <p>
-        Player 1 moves using the <b>Q</b> and <b>A</b> keys.<br>
-        Player 2 moves using the <b>P</b> and <b>L</b> keys.
+        Player 1 moves using the
+        <b>Q</b> and
+        <b>A</b> keys.
+        <br> Player 2 moves using the
+        <b>P</b> and
+        <b>L</b> keys.
       </p>
       <p>
         <b>Esc</b> can be used to abandon a game.
@@ -67,31 +93,58 @@
     </div>
   </canvas>
 
-  <script src="game.js" type="text/javascript"></script> 
+  <script src="game.js" type="text/javascript"></script>
   <script src="pong.js" type="text/javascript"></script>
   <script type="text/javascript">
-  Game.ready(function() {
+    Game.ready(function () {
 
-    var size        = document.getElementById('size');
-    var sound       = document.getElementById('sound');
-    var stats       = document.getElementById('stats');
-    var footprints  = document.getElementById('footprints');
-    var predictions = document.getElementById('predictions');
+      var size = document.getElementById('size');
+      var sound = document.getElementById('sound');
+      var stats = document.getElementById('stats');
+      var footprints = document.getElementById('footprints');
+      var predictions = document.getElementById('predictions');
 
-    var pong = Game.start('game', Pong, {
-      sound:       sound.checked,
-      stats:       stats.checked,
-      footprints:  footprints.checked,
-      predictions: predictions.checked
+      var pong = Game.start('game', Pong, {
+        sound: sound.checked,
+        stats: stats.checked,
+        footprints: footprints.checked,
+        predictions: predictions.checked
+      });
+
+      Game.addEvent(sound, 'change', function () {
+        pong.enableSound(sound.checked);
+      });
+      Game.addEvent(stats, 'change', function () {
+        pong.showStats(stats.checked);
+      });
+      Game.addEvent(footprints, 'change', function () {
+        pong.showFootprints(footprints.checked);
+      });
+      Game.addEvent(predictions, 'change', function () {
+        pong.showPredictions(predictions.checked);
+      });
+
     });
 
-    Game.addEvent(sound,       'change', function() { pong.enableSound(sound.checked);           });
-    Game.addEvent(stats,       'change', function() { pong.showStats(stats.checked);             });
-    Game.addEvent(footprints,  'change', function() { pong.showFootprints(footprints.checked);   });
-    Game.addEvent(predictions, 'change', function() { pong.showPredictions(predictions.checked); });
+    /*
+        register the service worker
+    */
+    if ('serviceWorker' in navigator) {
 
-  });
+      navigator.serviceWorker.register('/sw.js').then(function (registration) {
+        // Registration was successful
+
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+
+      }).catch(function (err) {
+        // registration failed :(
+
+        console.log('ServiceWorker registration failed: ', err);
+      });
+
+    }
   </script>
 
-</body> 
+</body>
+
 </html>

@@ -1,0 +1,14 @@
+{
+    "name": "pong_pwa",
+    "version": "0.0.1",
+    "description": "PONG PWA",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "http-server -p 15700 -c -i"
+    },
+    "author": "Chris Love",
+    "private": true,
+    "devDependencies": {
+        "http-server": "*"
+    }
+}
